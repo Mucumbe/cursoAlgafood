@@ -1,6 +1,6 @@
 package com.algaworks.algafood.jpa;
 
-import java.util.List;
+
 
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -9,7 +9,7 @@ import org.springframework.context.ApplicationContext;
 import com.algaworks.algafood.AlgafoodApiApplication;
 import com.algaworks.algafood.domain.model.Cozinha;
 
-public class BuscarCozinhaMain {
+public class AlterandoCozinhaMain {
 
 	public static void main(String[] args) {
 		
@@ -18,8 +18,11 @@ public class BuscarCozinhaMain {
 		CadastroCozinha cadastroCozinha= applicationContext.getBean(CadastroCozinha.class);
 		
 		Cozinha cozinha= new Cozinha();
+		cozinha.setId(1L);
+		cozinha.setNome("Brasileira");
 		
-		cozinha=cadastroCozinha.buscar(1L);
-		System.out.println(cozinha.getNome());
+		cadastroCozinha.adicionar(cozinha);
+		
+		
 	}
 }
