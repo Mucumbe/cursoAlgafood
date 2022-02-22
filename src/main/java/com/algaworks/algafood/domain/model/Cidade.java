@@ -6,22 +6,21 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
+@Data
+@EqualsAndHashCode(onlyExplicitlyIncluded =true)
 @Entity
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Cozinha {
-
+public class Cidade {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@EqualsAndHashCode.Include
 	private long id;
+	
 	private String nome;
 	
-	
-	
+	@ManyToOne
+	private Estado estado;
 }
