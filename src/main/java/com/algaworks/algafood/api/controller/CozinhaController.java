@@ -31,11 +31,10 @@ public class CozinhaController {
 	public ResponseEntity<Cozinha> buscar(@PathVariable Long id) {
 		Cozinha cozinha= cozinhaRepository.buscar(id);
 		
-		HttpHeaders headers= new HttpHeaders();
-		headers.add(HttpHeaders.LOCATION, "http://localhost:8080/cozinhas");
+		if (cozinha !=null) {
+			return ResponseEntity.ok(cozinha);
+		}
+		return ResponseEntity.notFound().build();
 		
-		//return ResponseEntity.status(HttpStatus.OK).body(cozinha);
-		//return ResponseEntity.ok(cozinha);
-		return ResponseEntity.status(HttpStatus.FOUND).headers(headers).build();
 	}
 }
