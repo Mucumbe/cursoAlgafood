@@ -1,5 +1,7 @@
 package com.algaworks.algafood.domain.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -21,19 +23,19 @@ public class CadastroCidadeService {
 
 	public Cidade salvar(Cidade cidade) {
 		long estadoId = cidade.getEstado().getId();
-		Estado estado = estadoRepository.buscar(estadoId);
-		if (estado == null) {
-			throw new EntidadeNaoEncontradaException(String.format("Cidade com Id %d nao encontrado", estadoId));
-		}
-
-		cidade = repository.adicionar(cidade);
+		
+		Estado estado = estadoRepository.findById(estadoId).orElseThrow(
+				()-> new EntidadeNaoEncontradaException(String.format("Estado com Id %d nao encontrado", estadoId)));
+		
+		cidade.setEstado(estado);
+		cidade = repository.save(cidade);
 		return cidade;
 
 	}
 
 	public void excluir(long id) {
 		try {
-			repository.remover(id);
+			repository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
 			throw new EntidadeNaoEncontradaException(String.format("Cidade com Id %d nao encontrada", id));
 		}
@@ -41,16 +43,16 @@ public class CadastroCidadeService {
 	
 	public Cidade actualizar(Cidade cidade,long id) {
 		long estadoId=cidade.getEstado().getId();
-		Estado estado =estadoRepository.buscar(estadoId);
-		if (estado==null) {
-			throw new EntidadeNaoEncontradaException(String.format("Estado com codigo %d nao existe",estadoId));
-		}
+		Estado estado =estadoRepository.findById(estadoId).orElseThrow(
+				()->new EntidadeNaoEncontradaException(String.format("Estado com codigo %d nao existe",estadoId))
+				);
+		
 		
 		cidade.setEstado(estado);
-		Cidade cidadeActual=repository.buscar(id);
-		BeanUtils.copyProperties(cidade, cidadeActual,"id");
-		cidadeActual=repository.adicionar(cidadeActual);
-		return cidadeActual;
+		Optional<Cidade> cidadeActual=repository.findById(id);
+		BeanUtils.copyProperties(cidade, cidadeActual.get(),"id");
+		Cidade cidadeSalva=repository.save(cidadeActual.get());
+		return cidadeSalva;
 	}
 
 }

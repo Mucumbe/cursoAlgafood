@@ -18,13 +18,13 @@ public class CadastroEstadoService {
 
 	public Estado salvar(Estado estado) {
 
-		return repository.adicionar(estado);
+		return repository.save(estado);
 	}
 	
 	public void excluir(long id) {
 		
 		try {
-			repository.remover(id);
+			repository.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
 			throw new EntidadeEmUsoException(
 					String.format("Estado com codifo %d não pode ser removido porque esta em uso",id));

@@ -1,6 +1,7 @@
 package com.algaworks.algafood.api.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,15 +35,15 @@ public class EstadoController {
 
 	@GetMapping
 	public List<Estado> listar() {
-		return repository.listar();
+		return repository.findAll();
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Estado> buscar(@PathVariable long id) {
 
-		Estado estado = repository.buscar(id);
-		if (estado != null) {
-			return ResponseEntity.ok(estado);
+		Optional<Estado> estado = repository.findById(id);
+		if (estado.isPresent()) {
+			return ResponseEntity.ok(estado.get());
 		}
 		return ResponseEntity.notFound().build();
 
@@ -51,18 +52,18 @@ public class EstadoController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Estado adicionar(@RequestBody Estado estado) {
-		return repository.adicionar(estado);
+		return repository.save(estado);
 
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<Estado> actualizar(@RequestBody Estado estado, @PathVariable long id) {
 
-		Estado estadoActual=repository.buscar(id);
-		if (estadoActual!=null) {
-			BeanUtils.copyProperties(estado, estadoActual,"id");
-			estadoActual=repository.adicionar(estadoActual);
-			return ResponseEntity.ok(estadoActual);
+		Optional<Estado> estadoActual=repository.findById(id);
+		if (estadoActual.isPresent()) {
+			BeanUtils.copyProperties(estado, estadoActual.get(),"id");
+			Estado estadoSalva=repository.save(estadoActual.get());
+			return ResponseEntity.ok(estadoSalva);
 		}
 		return ResponseEntity.notFound().build();
 	}
