@@ -12,17 +12,25 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.algaworks.algafood.domain.model.Restaurante;
+import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import com.algaworks.algafood.domain.repository.RestauranteRepositoryQueries;
+import com.algaworks.algafood.infrastructure.repository.spec.RestauranteComFreteGratisSpec;
+import com.algaworks.algafood.infrastructure.repository.spec.RestauranteComNomeSemelhanteSpec;
 
 @Repository
 public class RestauranteRepositoryImpl implements RestauranteRepositoryQueries {
 
 	@PersistenceContext
 	EntityManager manager;
+	
+	@Autowired @Lazy
+	RestauranteRepository restauranteRepository;
 
 	@Override
 	public List<Restaurante> find(String nome, BigDecimal taxaInicia, BigDecimal taxaFinal) {
@@ -52,6 +60,13 @@ public class RestauranteRepositoryImpl implements RestauranteRepositoryQueries {
 
 		return query.getResultList();
 
+	}
+
+	@Override
+	public List<Restaurante> findComFreteGrates(String nome) {
+		var freteGratis= new RestauranteComFreteGratisSpec();
+		var nomeSemelhante= new RestauranteComNomeSemelhanteSpec(nome);
+		return restauranteRepository.findAll(freteGratis.and(nomeSemelhante));
 	}
 
 }

@@ -8,5 +8,6 @@ import com.algaworks.algafood.domain.model.Restaurante;
 public interface RestauranteRepositoryQueries {
 
 	List<Restaurante> find(String nome, BigDecimal taxaInicia, BigDecimal taxaFinal);
+	List<Restaurante> findComFreteGrates(String nome);
 
 }
