@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -42,6 +43,9 @@ public class Restaurante {
 	//@JoinTable(name = "restaurante_formas_pagamento",joinColumns =@JoinColumn(name="restaurantes_id"),
 	//inverseJoinColumns =@JoinColumn(name="forma_pagamentos_id"))
 	private List<FormaPagamento> formaPagamento= new ArrayList<>();
+	
+	@Embedded
+	private Endereco endereco;
 	
 	
 
