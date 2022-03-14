@@ -39,7 +39,7 @@ public class CadastroRestauranteService {
 
 		restaurante.setCozinha(cozinha);
 		Optional<Restaurante> restauranteActual = repository.findById(restauranteId);
-		BeanUtils.copyProperties(restaurante, restauranteActual.get(), "id");
+		BeanUtils.copyProperties(restaurante, restauranteActual.get(), "id","formaPagamento");
 		restaurante = repository.save(restauranteActual.get());
 		return restaurante;
 	}
