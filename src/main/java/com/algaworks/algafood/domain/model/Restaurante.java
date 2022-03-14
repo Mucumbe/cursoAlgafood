@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -28,6 +30,7 @@ public class Restaurante {
 	@Column(name = "tx_frete")
 	private BigDecimal taxaFrete;
 	
+	@JsonIgnore
 	@ManyToOne
 	private Cozinha cozinha;
 
