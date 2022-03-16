@@ -10,7 +10,6 @@ import org.yaml.snakeyaml.events.Event.ID;
 
 import com.algaworks.algafood.domain.repository.CustomJpaRepository;
 
-import net.bytebuddy.agent.builder.AgentBuilder.LocationStrategy.Simple;
 
 public class CustomJpaRepositoryImpl<T,ÍD> extends SimpleJpaRepository<T, ID> implements CustomJpaRepository<T, ID> {
 	
