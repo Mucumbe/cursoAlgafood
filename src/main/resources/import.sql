@@ -15,6 +15,15 @@ insert into restaurante (nome,tx_Frete,cozinha_id,data_actualizacao,data_cadastr
 insert into restaurante (nome,tx_Frete, cozinha_id,data_actualizacao,data_cadastro) values ('Mundos',14,3,utc_timestamp,utc_timestamp)
 
 
+INSERT INTO produto (ativo, descricao, nome, preco, restaurante_id) VALUES (1,'Apas Universal para molhos', 'Apas', 50, 3);
+INSERT INTO produto (ativo, descricao, nome, preco, restaurante_id) VALUES (1,'Asas De Frango ', 'Wings', 175, 4);
+INSERT INTO produto (ativo, descricao, nome, preco, restaurante_id) VALUES (1,'bifinhos com nata', 'Alacarte', 350, 2);
+INSERT INTO produto (ativo, descricao, nome, preco, restaurante_id) VALUES (1,'PAo de alho', 'Entrada', 100, 2);
+INSERT INTO produto (ativo, descricao, nome, preco, restaurante_id) VALUES (1,'Pizza Ahla Portuguesa', 'Pizza', 450, 5);
+INSERT INTO produto (ativo, descricao, nome, preco, restaurante_id) VALUES (1,'Pedacos de frango Especial', 'Pedaco', 350, 4);
+INSERT INTO produto (ativo, descricao, nome, preco, restaurante_id) VALUES (1,'Rabo de Vaca Especial', 'Petisco', 620, 1);
+
+
 
 
 
