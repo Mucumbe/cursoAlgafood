@@ -1,0 +1,12 @@
+create table item_pedido (id bigint not null auto_increment, observacao varchar(255), preco_total decimal(19,2) not null, preco_unitario decimal(19,2) not null, quantidade integer not null, pedido_id bigint, produto_id bigint, primary key (id)) engine=InnoDB;
+create table pedido (id bigint not null auto_increment, data_cancelamento date, data_confirmacao date, data_criacao datetime not null, data_entrega date, endereco_bairro varchar(255), endereco_cep varchar(255), endereco_complemento varchar(255), endereco_logradouro varchar(255), endereco_numero varchar(255), status_pedido varchar(255), subt_total decimal(19,2) not null, taxa_frete decimal(19,2) not null, valor_total decimal(19,2) not null, endereco_cidade_id bigint, forma_pagamento_id bigint, restaurante_id bigint, usuario_id bigint, primary key (id)) engine=InnoDB;
+create table pedido_item_pedido (pedido_id bigint not null, item_pedido_id bigint not null) engine=InnoDB;
+alter table pedido_item_pedido add constraint UK_dh9q1xfnblq6i6mcut16wq28h unique (item_pedido_id);
+alter table item_pedido add constraint FK60ym08cfoysa17wrn1swyiuda foreign key (pedido_id) references pedido (id);
+alter table item_pedido add constraint FKtk55mn6d6bvl5h0no5uagi3sf foreign key (produto_id) references produto (id);
+alter table pedido add constraint FKk987vfg9cpgx7qxj3166fdqig foreign key (endereco_cidade_id) references cidade (id);
+alter table pedido add constraint FKqaa411xsl0xu4tkvt1wpccd3b foreign key (forma_pagamento_id) references forma_pagamento (id);
+alter table pedido add constraint FK3eud5cqmgsnltyk704hu3qj71 foreign key (restaurante_id) references restaurante (id);
+alter table pedido add constraint FK6uxomgomm93vg965o8brugt00 foreign key (usuario_id) references usuario (id);
+alter table pedido_item_pedido add constraint FK42f51fj53l92vu2h9dl71nlmr foreign key (item_pedido_id) references item_pedido (id);
+alter table pedido_item_pedido add constraint FKchgyfxkh0mqinxtk2s71j81vs foreign key (pedido_id) references pedido (id);
