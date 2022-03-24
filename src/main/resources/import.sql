@@ -5,6 +5,7 @@ insert into cozinha (nome) values ('Mocambicana')
 insert into estado (nome) values ('MG')
 insert into estado (nome) values ('RJ')
 
+
 insert into cidade (nome,estado_id) values ('Belo Horizonte',1)
 insert into cidade (nome,estado_id) values ('Rio de Janeiro',2)
 
