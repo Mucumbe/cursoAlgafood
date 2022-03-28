@@ -13,6 +13,7 @@ import com.algaworks.algafood.domain.repository.CozinhaRepository;
 @Service
 public class CadastroCozinhaService {
 
+	private static final String ENTIDADE_NAO_ENCONTRADA = "Entida com Com id %d nao encontrada";
 	@Autowired
 	private CozinhaRepository repository;
 
@@ -25,12 +26,16 @@ public class CadastroCozinhaService {
 		try {
 			repository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
-			throw new EntidadeNaoEncontradaException(String.format("Entida com Com id %d nao encontrada", id));
+			throw new EntidadeNaoEncontradaException(String.format(ENTIDADE_NAO_ENCONTRADA, id));
 		} catch (DataIntegrityViolationException e) {
 			throw new EntidadeEmUsoException(
 					String.format("Entidade com o ID %d nao pode ser Removido esta em Uso", id));
 		}
 
+	}
+	
+	public Cozinha buscarPor(Long id) {
+		return  repository.findById(id).orElseThrow(()-> new EntidadeNaoEncontradaException(String.format(ENTIDADE_NAO_ENCONTRADA, id)));
 	}
 
 }
