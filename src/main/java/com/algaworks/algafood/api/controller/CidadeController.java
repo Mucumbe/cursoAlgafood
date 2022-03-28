@@ -13,13 +13,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.domain.model.Cidade;
-import com.algaworks.algafood.domain.model.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.repository.CidadeRepository;
 import com.algaworks.algafood.domain.service.CadastroCidadeService;
-
 
 @RestController
 @RequestMapping("/cidades")
@@ -37,56 +36,29 @@ public class CidadeController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Cidade> porId(@PathVariable long id) {
-		Optional<Cidade> cidade = repository.findById(id);
+	public Cidade porId(@PathVariable long id) {
 		
-		if (cidade.isPresent()) {
-			return ResponseEntity.ok(cidade.get());
-		}
-		return ResponseEntity.notFound().build();
+		return service.buscaPorIdValidada( id);
 	}
 
 	@PostMapping
-	public ResponseEntity<?> adicionar(@RequestBody Cidade cidade) {
-
-		try {
-			cidade = service.salvar(cidade);
-			return ResponseEntity.status(HttpStatus.CREATED).body(cidade);
-
-		} catch (EntidadeNaoEncontradaException e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}
+	@ResponseStatus(value = HttpStatus.CREATED)
+	public Cidade adicionar(@RequestBody Cidade cidade) {
+		return service.salvar(cidade);
 
 	}
-	
+
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Cidade> remover(@PathVariable long id){
-		
-		try {
-			service.excluir(id);
-			return ResponseEntity.noContent().build();
-		} catch (EntidadeNaoEncontradaException e) {
-			return ResponseEntity.notFound().build();
-		}
-		
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void remover(@PathVariable long id) {
+		service.excluir(id);
 	}
-	
+
 	@PutMapping("/{id}")
-	public ResponseEntity<?> actualizar(@PathVariable long id,@RequestBody Cidade cidade){
-		
-		Optional<Cidade> cidadeActual=repository.findById(id);
-		if (cidadeActual.isEmpty()) {
-			return ResponseEntity.notFound().build();
-		}else {
-			try {
-				Cidade cidadeSalva= service.actualizar(cidade, id);
-				return ResponseEntity.ok(cidadeSalva);
-			} catch (EntidadeNaoEncontradaException e) {
-				return ResponseEntity.badRequest().body(e.getMessage());
-			}
-		}
-		
-		
+	public Cidade actualizar(@PathVariable long id, @RequestBody Cidade cidade) {
+
+		return service.actualizar(cidade, id);
+
 	}
-	
+
 }

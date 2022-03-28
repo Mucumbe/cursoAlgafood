@@ -29,7 +29,7 @@ public class EstadoController {
 
 	@Autowired
 	EstadoRepository repository;
-	
+
 	@Autowired
 	private CadastroEstadoService service;
 
@@ -57,28 +57,20 @@ public class EstadoController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Estado> actualizar(@RequestBody Estado estado, @PathVariable long id) {
+	public Estado actualizar(@RequestBody Estado estado, @PathVariable long id) {
 
-		Optional<Estado> estadoActual=repository.findById(id);
-		if (estadoActual.isPresent()) {
-			BeanUtils.copyProperties(estado, estadoActual.get(),"id");
-			Estado estadoSalva=repository.save(estadoActual.get());
-			return ResponseEntity.ok(estadoSalva);
-		}
-		return ResponseEntity.notFound().build();
+		Estado estadoActual = service.buscarPorId(id);
+
+		BeanUtils.copyProperties(estado, estadoActual, "id");
+
+		return repository.save(estadoActual);
+
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Estado> excluir(@PathVariable long id){
-		
-		try {
-			service.excluir(id);
-			return ResponseEntity.noContent().build();
-		} catch (EntidadeNaoEncontradaException e) {
-			 return ResponseEntity.notFound().build();
-		}catch (EntidadeEmUsoException e) {
-			return ResponseEntity.status(HttpStatus.CONFLICT).build(); 
-		}
-		
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void excluir(@PathVariable long id) {
+		service.excluir(id);
+
 	}
 }

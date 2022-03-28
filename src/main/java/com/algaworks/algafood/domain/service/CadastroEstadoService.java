@@ -13,6 +13,7 @@ import com.algaworks.algafood.domain.repository.EstadoRepository;
 @Service
 public class CadastroEstadoService {
 
+	private static final String ENTIDA_NAO_ENCONTRADA = "Entidade com codifo %d não foi encontrada";
 	@Autowired
 	private EstadoRepository repository;
 
@@ -30,8 +31,14 @@ public class CadastroEstadoService {
 					String.format("Estado com codifo %d não pode ser removido porque esta em uso",id));
 		}catch (EmptyResultDataAccessException e) {
 			throw new EntidadeNaoEncontradaException(
-					String.format("Entidade com codifo %d não foi encontrada",id));
+					String.format(ENTIDA_NAO_ENCONTRADA,id));
 		}
 		
 	}
+	
+	public Estado buscarPorId(Long id) {
+		
+		return repository.findById(id).orElseThrow(()-> new EntidadeNaoEncontradaException(String.format(ENTIDA_NAO_ENCONTRADA,id)));
+	}
+	
 }

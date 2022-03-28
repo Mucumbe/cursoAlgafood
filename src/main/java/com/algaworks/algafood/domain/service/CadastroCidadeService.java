@@ -16,6 +16,7 @@ import com.algaworks.algafood.domain.repository.EstadoRepository;
 @Service
 public class CadastroCidadeService {
 
+	private static final String CIDADE_NAO_ENCONTRADA = "Cidade com Id %d nao encontrada";
 	@Autowired
 	private CidadeRepository repository;
 	@Autowired
@@ -37,11 +38,12 @@ public class CadastroCidadeService {
 		try {
 			repository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
-			throw new EntidadeNaoEncontradaException(String.format("Cidade com Id %d nao encontrada", id));
+			throw new EntidadeNaoEncontradaException(String.format(CIDADE_NAO_ENCONTRADA, id));
 		}
 	}
 	
 	public Cidade actualizar(Cidade cidade,long id) {
+		buscaPorIdValidada( id);
 		long estadoId=cidade.getEstado().getId();
 		Estado estado =estadoRepository.findById(estadoId).orElseThrow(
 				()->new EntidadeNaoEncontradaException(String.format("Estado com codigo %d nao existe",estadoId))
@@ -53,6 +55,11 @@ public class CadastroCidadeService {
 		BeanUtils.copyProperties(cidade, cidadeActual.get(),"id");
 		Cidade cidadeSalva=repository.save(cidadeActual.get());
 		return cidadeSalva;
+	}
+	
+	public Cidade buscaPorIdValidada(long id) {
+		
+		return repository.findById(id).orElseThrow(()-> new EntidadeNaoEncontradaException(String.format(CIDADE_NAO_ENCONTRADA, id)));
 	}
 
 }
