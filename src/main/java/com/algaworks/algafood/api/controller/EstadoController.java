@@ -39,13 +39,9 @@ public class EstadoController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Estado> buscar(@PathVariable long id) {
+	public Estado buscar(@PathVariable long id) {
 
-		Optional<Estado> estado = repository.findById(id);
-		if (estado.isPresent()) {
-			return ResponseEntity.ok(estado.get());
-		}
-		return ResponseEntity.notFound().build();
+		return service.buscarPorId(id);
 
 	}
 
