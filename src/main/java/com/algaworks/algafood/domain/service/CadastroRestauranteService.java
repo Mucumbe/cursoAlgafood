@@ -12,6 +12,7 @@ import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.model.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.model.exception.EntidadeNaoEncontradaException;
+import com.algaworks.algafood.domain.model.exception.NegocioException;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 
@@ -22,11 +23,19 @@ public class CadastroRestauranteService {
 	RestauranteRepository repository;
 	@Autowired
 	CozinhaRepository cozinhaRepository;
+	
+	@Autowired
+	CadastroCozinhaService cozinhaService;
 
 	public Restaurante salvar(Restaurante restaurante) {
 		long cozinhaId = restaurante.getCozinha().getId();
-		Cozinha cozinha = cozinhaRepository.findById(cozinhaId).orElseThrow(() -> new EntidadeNaoEncontradaException(
-				String.format("Não existe cadastro de cozinha com Codigo: %d", cozinhaId)));
+		Cozinha cozinha;
+		try {
+			 cozinha = cozinhaService.buscarPor(cozinhaId);
+		} catch (EntidadeNaoEncontradaException e) {
+			throw new NegocioException(e.getMessage());
+		}
+		
 
 		restaurante.setCozinha(cozinha);
 		restaurante = repository.save(restaurante);
@@ -36,8 +45,12 @@ public class CadastroRestauranteService {
 	public Restaurante actualizar(Restaurante restaurante, long restauranteId) {
 
 		long cozinhaId = restaurante.getCozinha().getId();
-		Cozinha cozinha = cozinhaRepository.findById(cozinhaId).orElseThrow(() -> new EntidadeNaoEncontradaException(
-				String.format("Não existe cadastro de cozinha com Codigo: %d", cozinhaId)));
+		Cozinha cozinha;
+		try {
+			 cozinha = cozinhaService.buscarPor(cozinhaId);
+		} catch (EntidadeNaoEncontradaException e) {
+			throw new NegocioException(e.getMessage());
+		}
 
 		restaurante.setCozinha(cozinha);
 		Restaurante restauranteActual = buscarPorId(restauranteId);

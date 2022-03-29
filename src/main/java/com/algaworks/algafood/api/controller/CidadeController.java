@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.domain.model.Cidade;
+import com.algaworks.algafood.domain.model.exception.EntidadeNaoEncontradaException;
+import com.algaworks.algafood.domain.model.exception.NegocioException;
 import com.algaworks.algafood.domain.repository.CidadeRepository;
 import com.algaworks.algafood.domain.service.CadastroCidadeService;
 
@@ -35,14 +37,21 @@ public class CidadeController {
 
 	@GetMapping("/{id}")
 	public Cidade porId(@PathVariable long id) {
-		
-		return service.buscaPorIdValidada( id);
+
+		return service.buscaPorIdValidada(id);
 	}
 
 	@PostMapping
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public Cidade adicionar(@RequestBody Cidade cidade) {
-		return service.salvar(cidade);
+		
+		try {
+			return service.salvar(cidade);
+		} catch (EntidadeNaoEncontradaException e) {
+			throw new NegocioException(e.getMessage());
+		}
+		
+		
 
 	}
 
