@@ -12,7 +12,7 @@ public class RestauranteNaoEncontradoExceprion  extends EntidadeNaoEncontradaExc
 
 	public RestauranteNaoEncontradoExceprion(long id) {
 		
-		this(String.format("Nao Existe um cadastro de estado com código: %d",id));
+		this(String.format("Nao Existe um cadastro de Restaurante com código: %d",id));
 	}
 	
 }
