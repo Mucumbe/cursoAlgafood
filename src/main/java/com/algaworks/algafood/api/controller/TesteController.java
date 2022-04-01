@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.algaworks.algafood.domain.model.Cozinha;
-import com.algaworks.algafood.domain.model.Restaurante;
-import com.algaworks.algafood.domain.repository.CozinhaRepository;
-import com.algaworks.algafood.domain.repository.RestauranteRepository;
+import com.algaworks.algafood.api.domain.model.Cozinha;
+import com.algaworks.algafood.api.domain.model.Restaurante;
+import com.algaworks.algafood.api.domain.repository.CozinhaRepository;
+import com.algaworks.algafood.api.domain.repository.RestauranteRepository;
 
 @RestController
 @RequestMapping("/teste")
