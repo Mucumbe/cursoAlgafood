@@ -20,8 +20,13 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(EntidadeEmUsoException.class)
 	public ResponseEntity<?> handleEntidadeEmUso(EntidadeEmUsoException ex, WebRequest request) {
-
-		return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.CONFLICT, request);
+		
+		HttpStatus status=HttpStatus.CONFLICT;
+		ProblemType problemType=ProblemType.ENTIDADE_EM_USO;
+		String detail=ex.getMessage();
+		
+		Problem problem=createProblemBuilder(status, problemType, detail).build();
+		return handleExceptionInternal(ex, problem, new HttpHeaders(), HttpStatus.CONFLICT, request);
 	}
 
 	@ExceptionHandler(EntidadeNaoEncontradaException.class)
@@ -44,6 +49,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(NegocioException.class)
 	public ResponseEntity<?> handleNegocioException(NegocioException ex, WebRequest request) {
 
+		
+		
 		return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
 	}
 
