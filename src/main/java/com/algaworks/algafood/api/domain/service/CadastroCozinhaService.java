@@ -29,8 +29,7 @@ public class CadastroCozinhaService {
 		} catch (EmptyResultDataAccessException e) {
 			throw new CozinhaNaoEncontradoExceprion(id);
 		} catch (DataIntegrityViolationException e) {
-			throw new CozinhaEmUsoException(
-					String.format("Entidade com o ID %d nao pode ser Removido esta em Uso", id));
+			throw new CozinhaEmUsoException( id);
 		}
 
 	}

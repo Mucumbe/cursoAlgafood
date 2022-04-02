@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -48,11 +49,27 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(NegocioException.class)
 	public ResponseEntity<?> handleNegocioException(NegocioException ex, WebRequest request) {
-
 		
+		HttpStatus status= HttpStatus.BAD_REQUEST;
+		ProblemType problemType=ProblemType.ERRO_NEGOCIO;
+		String detail=ex.getMessage();
+		Problem problem=createProblemBuilder(status, problemType, detail).build();
 		
-		return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+		return handleExceptionInternal(ex,problem, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
 	}
+	
+	@Override
+	protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
+			HttpHeaders headers, HttpStatus status, WebRequest request) {
+		
+			ProblemType problemType=ProblemType.MENSAGEM_INCOMPREENIVEL;
+			String detail="O corpo da requisição está inválidade, verifique o erro de sintaxe";
+		
+			Problem problem=createProblemBuilder(status, problemType, detail).build();
+		
+			return handleExceptionInternal(ex,problem, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+	}
+
 
 	@Override
 	protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers,
@@ -67,7 +84,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
 		return super.handleExceptionInternal(ex, body, headers, status, request);
 	}
-
+	
+	
 	private Problem.ProblemBuilder createProblemBuilder(HttpStatus status, ProblemType problemType, String detail) {
 
 		return Problem.builder().
