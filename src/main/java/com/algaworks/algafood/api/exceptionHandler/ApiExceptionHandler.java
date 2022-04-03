@@ -42,7 +42,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	public ResponseEntity<?> handleEntidadeNaoEncontrada(EntidadeNaoEncontradaException ex, WebRequest request) {
 
 		HttpStatus status = HttpStatus.NOT_FOUND;
-		ProblemType problemType = ProblemType.ENTIDADE_NAO_ENCONTRADA;
+		ProblemType problemType = ProblemType.RESCURSO_NAO_ENCONTRADO;
 		String detail = ex.getMessage();
 
 		Problem problem = createProblemBuilder(status, problemType, detail).build();
@@ -70,7 +70,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers,
 			HttpStatus status, WebRequest request) {
 		if (ex instanceof MethodArgumentTypeMismatchException) {
-			System.err.println("------------------------------------------------");
 			return handleNumberFormatException((MethodArgumentTypeMismatchException) ex, headers, status,
 					request);
 		}
