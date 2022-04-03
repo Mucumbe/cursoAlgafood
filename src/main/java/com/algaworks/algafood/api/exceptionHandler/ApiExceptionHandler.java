@@ -18,6 +18,7 @@ import com.algaworks.algafood.api.domain.model.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.api.domain.model.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.api.domain.model.exception.NegocioException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import com.fasterxml.jackson.databind.exc.PropertyBindingException;
 
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
@@ -69,6 +70,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		if (rootCause instanceof InvalidFormatException) {
 
 			return handleInvalidFormatException((InvalidFormatException) rootCause, headers, status, request);
+		}else if (rootCause instanceof PropertyBindingException) {
+			
+			return handlePropertyBindingException((PropertyBindingException) rootCause,headers,status,request);
 		}
 
 		ProblemType problemType = ProblemType.MENSAGEM_INCOMPREENIVEL;
@@ -77,6 +81,23 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		Problem problem = createProblemBuilder(status, problemType, detail).build();
 
 		return handleExceptionInternal(ex, problem, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+	}
+	
+	
+
+	private ResponseEntity<Object> handlePropertyBindingException(PropertyBindingException rootCause,
+			HttpHeaders headers, HttpStatus status, WebRequest request) {
+			
+		ProblemType problemType=ProblemType.ERRO_SINTAXE;
+		
+		String path=rootCause.getPath().stream().map(ref-> ref.getFieldName()).collect(Collectors.joining("."));
+		path=path.toUpperCase();
+		
+		String detail =String.format("A propiedade '%s' não faz parte desta requisição", path);
+		
+		Problem problem=createProblemBuilder(status, problemType, detail).build();
+		
+		return handleExceptionInternal(rootCause, problem, headers, status, request);
 	}
 
 	private ResponseEntity<Object> handleInvalidFormatException(InvalidFormatException rootCause, HttpHeaders headers,

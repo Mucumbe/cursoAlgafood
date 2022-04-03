@@ -35,7 +35,6 @@ public class CadastroCozinhaService {
 	}
 	
 	public Cozinha buscarPor(Long id) {
-		System.err.println(id);
 		return  repository.findById(id).orElseThrow(()-> new CozinhaNaoEncontradoExceprion(id));
 	}
 
