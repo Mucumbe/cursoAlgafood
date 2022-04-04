@@ -46,7 +46,9 @@ public class RestauranteController {
 
 	@GetMapping("/{id}")
 	public Restaurante buscar(@PathVariable Long id) {
-		System.err.println("kkkkkkkkkkkkkkkkkk");
+		if (true) {
+			throw new IllegalArgumentException("äaa");
+		}
 		return service.buscarPorId(id);
 
 	}

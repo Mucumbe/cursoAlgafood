@@ -28,6 +28,22 @@ import com.fasterxml.jackson.databind.exc.PropertyBindingException;
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
+	
+	
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<Object> handleUnCought(Exception e, WebRequest request) {
+		
+		HttpStatus status=HttpStatus.INTERNAL_SERVER_ERROR;
+		ProblemType problemType=ProblemType.ERRO_DE_SISTEMA;
+		String detail= "Ocorreu um erro interno no sistema. Tente novamente e se o problema persistir, entre em contacto com o administrador do sistema";
+		
+
+		e.printStackTrace();
+		Problem problem=createProblemBuilder(status, problemType, detail).build();
+		
+		return handleExceptionInternal(e, problem, new HttpHeaders(),status, request);
+	}
+	
 	@ExceptionHandler(EntidadeEmUsoException.class)
 	public ResponseEntity<?> handleEntidadeEmUso(EntidadeEmUsoException ex, WebRequest request) {
 
@@ -38,6 +54,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		Problem problem = createProblemBuilder(status, problemType, detail).build();
 		return handleExceptionInternal(ex, problem, new HttpHeaders(), HttpStatus.CONFLICT, request);
 	}
+	
+	
 	
 	@Override
 	protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers,
