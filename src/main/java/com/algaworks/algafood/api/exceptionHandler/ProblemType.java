@@ -11,7 +11,8 @@ public enum ProblemType {
 	MENSAGEM_INCOMPREENIVEL("/mensagem-incompresível","Mensagem incompresível"),
 	ERRO_SINTAXE("/erro-de-sintaxe","Erro de sintaxe"),
 	PARAMENTRO_INVALIDO("/parametro-invalido","Paramentro invalido"),
-	ERRO_DE_SISTEMA("erro-de-sistema","Erro de sistema");
+	ERRO_DE_SISTEMA("erro-de-sistema","Erro de sistema"),
+	DADOS_INVALIDOS("/dados-invalidos","Dados invalidos");
 	
 	private String title;
 	private String uri;
