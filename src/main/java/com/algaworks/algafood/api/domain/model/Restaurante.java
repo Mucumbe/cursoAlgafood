@@ -14,7 +14,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -40,7 +44,12 @@ public class Restaurante {
 	
 	
 	@NotNull
+	@NotEmpty
+	@NotBlank
 	private String nome;
+	
+	//@DecimalMin("1")
+	@PositiveOrZero
 	@Column(name = "tx_frete")
 	private BigDecimal taxaFrete;
 	
