@@ -2,6 +2,7 @@ package com.algaworks.algafood.api.exceptionHandler;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -11,6 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -24,6 +26,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import com.algaworks.algafood.api.domain.model.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.api.domain.model.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.api.domain.model.exception.NegocioException;
+import com.algaworks.algafood.api.exceptionHandler.Problem.Field;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.PropertyBindingException;
 
@@ -39,8 +42,14 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		if (ex instanceof MethodArgumentNotValidException) {
 			ProblemType problemType = ProblemType.DADOS_INVALIDOS;
 			String detail = "Um ou mais campos estão Invalidos. Faça o preechimento correto e tente novamente";
+			BindingResult bindingResult=ex.getBindingResult();
+			
+			List<Problem.Field> problemFields= bindingResult.getFieldErrors().stream()
+					.map(fieldError-> Problem.Field.builder().nome(fieldError.getField())
+							.userMessage(fieldError.getDefaultMessage()).build()).collect(Collectors.toList());
+			
 			Problem problem = createProblemBuilder(status, problemType, detail).userMessage(MSG_ERRO_GENERICO_USUARIO_FINAL)
-					.timeStamp(LocalDateTime.now()).build();
+					.timeStamp(LocalDateTime.now()).fields(problemFields).build();
 			
 			return handleExceptionInternal(ex, problem, headers, status, request);
 		}
