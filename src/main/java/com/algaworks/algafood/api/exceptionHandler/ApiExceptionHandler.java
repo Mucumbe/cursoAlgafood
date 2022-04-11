@@ -35,6 +35,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
 	private static final String MSG_ERRO_GENERICO_USUARIO_FINAL = "Ocorreu um erro interno no sistema. Tente novamente e se o problema persistir, entre em contacto com o administrador do sistema";
 
+	
+	
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
@@ -160,6 +162,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 		Throwable rootCause = ExceptionUtils.getRootCause(ex);
 
+		
+		System.err.println("teste teste tetse");
+		
 		if (rootCause instanceof InvalidFormatException) {
 
 			return handleInvalidFormatException((InvalidFormatException) rootCause, headers, status, request);

@@ -25,6 +25,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.lang.NonNull;
 
+import com.algaworks.algafood.Groups;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
@@ -44,20 +45,18 @@ public class Restaurante {
 	
 	
 	
-	@NotNull
-	@NotEmpty
-	@NotBlank
+	@NotBlank(groups = Groups.CadastroRestaurante.class)
 	private String nome;
 	
 	//@DecimalMin("1")
-	@PositiveOrZero
+	@PositiveOrZero(groups = Groups.CadastroRestaurante.class)
 	@Column(name = "tx_frete")
 	private BigDecimal taxaFrete;
 	
 	//@JsonIgnore
 	//@JsonIgnoreProperties(value = "hibernateLazyInitializer")
 	@Valid
-	@NotNull
+	@NotNull(groups = Groups.CadastroRestaurante.class)
 	@ManyToOne//(fetch = FetchType.LAZY)
 	@JoinColumn(name ="cozinha_id", nullable = false)
 	private Cozinha cozinha;
@@ -85,10 +84,5 @@ public class Restaurante {
 	@UpdateTimestamp
 	@Column(nullable = false, columnDefinition = "datetime")
 	private LocalDateTime dataActualizacao;
-	
-	
-	
-
-	
 
 }
