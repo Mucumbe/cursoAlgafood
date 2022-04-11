@@ -213,7 +213,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers,
 			HttpStatus status, WebRequest request) {
 
-		System.err.println("mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm");
 		if (body == null) {
 			body = Problem.builder().title(status.getReasonPhrase()).status(status.value())
 					.userMessage(MSG_ERRO_GENERICO_USUARIO_FINAL).timeStamp(LocalDateTime.now()).build();

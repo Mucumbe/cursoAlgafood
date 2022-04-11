@@ -2,6 +2,7 @@ package com.algaworks.algafood.api.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,7 @@ public class CozinhaController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Cozinha adicionar(@RequestBody Cozinha cozinha) {
+	public Cozinha adicionar(@RequestBody @Valid Cozinha cozinha) {
 		return cadastroCozinhaService.adicionar(cozinha);
 	}
 
