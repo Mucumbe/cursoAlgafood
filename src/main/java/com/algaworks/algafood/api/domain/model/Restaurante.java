@@ -15,20 +15,16 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.Valid;
-import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PositiveOrZero;
 import javax.validation.groups.ConvertGroup;
 import javax.validation.groups.Default;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.lang.NonNull;
 
-import com.algaworks.algafood.Groups;
-import com.algaworks.algafood.Groups.CozinhaId;
+import com.algaworks.algafood.core.validation.Groups;
+import com.algaworks.algafood.core.validation.TaxaFrete;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
@@ -52,7 +48,7 @@ public class Restaurante {
 	private String nome;
 	
 	//@DecimalMin("1")
-	@PositiveOrZero
+	@TaxaFrete
 	@Column(name = "tx_frete")
 	private BigDecimal taxaFrete;
 	

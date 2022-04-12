@@ -25,10 +25,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.algaworks.algafood.Groups;
 import com.algaworks.algafood.api.domain.model.Restaurante;
 import com.algaworks.algafood.api.domain.repository.RestauranteRepository;
 import com.algaworks.algafood.api.domain.service.CadastroRestauranteService;
+import com.algaworks.algafood.core.validation.Groups;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

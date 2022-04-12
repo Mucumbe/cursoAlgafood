@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 import com.algaworks.algafood.api.domain.model.Cozinha;
 import com.algaworks.algafood.api.domain.model.exception.CozinhaEmUsoException;
 import com.algaworks.algafood.api.domain.model.exception.CozinhaNaoEncontradoExceprion;
-import com.algaworks.algafood.api.domain.model.exception.EntidadeEmUsoException;
-import com.algaworks.algafood.api.domain.model.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.api.domain.repository.CozinhaRepository;
 
 @Service

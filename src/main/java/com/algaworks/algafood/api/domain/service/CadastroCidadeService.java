@@ -10,7 +10,6 @@ import com.algaworks.algafood.api.domain.model.Cidade;
 import com.algaworks.algafood.api.domain.model.Estado;
 import com.algaworks.algafood.api.domain.model.exception.CidadeEmUsoException;
 import com.algaworks.algafood.api.domain.model.exception.CidadeNaoEncontradoExceprion;
-import com.algaworks.algafood.api.domain.model.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.api.domain.model.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.api.domain.model.exception.NegocioException;
 import com.algaworks.algafood.api.domain.repository.CidadeRepository;
