@@ -5,6 +5,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
+import javax.validation.groups.ConvertGroup;
+import javax.validation.groups.Default;
+
+import com.algaworks.algafood.Groups;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,8 +24,11 @@ public class Cidade {
 	@EqualsAndHashCode.Include
 	private long id;
 	
+	@NotNull
 	private String nome;
 	
 	@ManyToOne
+	@ConvertGroup(from = Default.class,to = Groups.EstadoId.class)
+	@NotNull
 	private Estado estado;
 }

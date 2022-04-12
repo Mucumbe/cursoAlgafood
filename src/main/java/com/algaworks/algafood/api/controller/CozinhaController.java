@@ -51,20 +51,16 @@ public class CozinhaController {
 	}
 
 	@PutMapping("/{id}")
-	public Cozinha actualizar(@PathVariable Long id, @RequestBody Cozinha cozinha) {
+	public Cozinha actualizar(@PathVariable Long id, @RequestBody @Valid Cozinha cozinha) {
 		Cozinha cozinhaactual = cadastroCozinhaService.buscarPor(id);
-
 		BeanUtils.copyProperties(cozinha, cozinhaactual, "id");
-
 		return cozinhaRepository.save(cozinhaactual);
-
 	}
 
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long id) {
 		cadastroCozinhaService.excluir(id);
-
 	}
 
 }

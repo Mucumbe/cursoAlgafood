@@ -41,7 +41,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 		
+
 		if (ex instanceof MethodArgumentNotValidException) {
+			
 			ProblemType problemType = ProblemType.DADOS_INVALIDOS;
 			String detail = "Um ou mais campos estão Invalidos. Faça o preechimento correto e tente novamente";
 			BindingResult bindingResult=ex.getBindingResult();
@@ -56,7 +58,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 			return handleExceptionInternal(ex, problem, headers, status, request);
 		}
 		
-
+		
 		return super.handleMethodArgumentNotValid(ex, headers, status, request);
 	}
 
@@ -135,6 +137,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	@Override
 	protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers,
 			HttpStatus status, WebRequest request) {
+		
 		if (ex instanceof MethodArgumentTypeMismatchException) {
 			return handleNumberFormatException((MethodArgumentTypeMismatchException) ex, headers, status, request);
 		}

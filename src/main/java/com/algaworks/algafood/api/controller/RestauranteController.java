@@ -56,7 +56,7 @@ public class RestauranteController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Restaurante adicionar(@RequestBody @Validated(Groups.CadastroRestaurante.class) Restaurante restaurante) {
+	public Restaurante adicionar(@RequestBody @Valid Restaurante restaurante) {
 		
 			
 			return service.salvar(restaurante);
@@ -64,7 +64,7 @@ public class RestauranteController {
 	}
 
 	@PutMapping("/{id}")
-	public Restaurante actualizar(@RequestBody Restaurante restaurante, @PathVariable long id) {
+	public Restaurante actualizar(@RequestBody @Valid Restaurante restaurante, @PathVariable long id) {
 		
 				
 				return service.actualizar(restaurante, id);
